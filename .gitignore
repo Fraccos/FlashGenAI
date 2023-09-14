@@ -1,0 +1,15 @@
+*.sh
+
+*.env
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+
+/out
+/buffers
+/in
