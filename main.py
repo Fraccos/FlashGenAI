@@ -12,21 +12,12 @@ bufferPath = "./buffers/"
 
 
 def filterUselessText(text):
-    removeLines = [
-        "Antonio Ferrara | Fondamenti del Web (Ingegneria del Software e Fondamenti Web)",
-        "Fondamenti del Web",
-        "Corso di Laurea in Ingegneria Informatica e dell’Automazione",
-        "Anno Accademico 2022/2023",
-        "Prof. Antonio Ferrara ",
-        "Ingegneria del Software e Fondamenti Web "
-    ]
+    removeLines = []
     for rem in removeLines:
         text = text.replace(rem, "")
     return text
 
 def filterSlideName(text):
-    #Ip: i titoli si trovano tra le prime righe (max prime 3) e jhanno
-        #Un numero di parole <= 3
     lines = text.splitlines()
 
 def formatOutput(text, isLastline):
@@ -60,7 +51,6 @@ def getJSONPath(inputFilename):
     return "./out/" + re.sub(r"\.pdf$", ".json", inputFilename) 
 
 def genFlashCardPrompt(text):
-    #type: "flashcard"
     res = 'In base al contesto, mi puoi generare delle flashcard,in Inglese, come array di oggetti JSON dove ogni flashcard è un oggetto che rispetta queste proprietà: { "question":"", "answer": ""}, la risposta deve essere un codice JSON valido senza commenti, a partire dal seguente testo:  '
     res += text
     return res
@@ -103,7 +93,7 @@ def JSONfromBuffers(filename, buffersSize, startIndex):
 
 def runFile(filename): 
     if not os.path.isfile(filename):
-        print("\nERRORE: File ", filename, "non esiste, controlla errori di battitura nel nome del file" )
+        print("\Error: File ", filename, " doesn't exist, check if the name is typed correctly" )
         return False
     if isOutJSONExist(filename):
         return True
@@ -135,7 +125,6 @@ def runFile(filename):
                 print(" * Page is already buffered!")
     JSONfromBuffers(filename, len(doc), 2)
     doc.close()
-    print("\n\n*** COMPLETATO ***")
+    print("\n\n*** COMPLETED ***")
+print("\n\n*** All the files has been completed ***")
 
-runFile("f.spl.securityprotection2.pdf")
-print("\n*** TUTTI I FILE SONO STATI COMPLETATI ***\n")
