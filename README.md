@@ -1,1 +1,2 @@
 # flashgenai
+# flashcardai
