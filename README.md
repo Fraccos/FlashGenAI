@@ -6,26 +6,26 @@ This tool is not meant to replace the active study process of thinking about a q
 
 ## Warning ⚠️
 
-**⚠️** The OpenAI API is billed proportionally to the number of words sent as input to the GPT model, so it is strongly suggested to set a billing limit for the API key before using it, to avoid unwanted high API costs.
+**⚠️** The OpenAI API is billed proportionally to the number of words sent as input to the GPT model, so it is strongly recommended to set a billing limit for the API key before using it, to avoid unwanted high API costs.
 
 ## Features
 
 * Choose the language of the flashcard
-* Buffer to save the output
+* Buffer output
 * JSON format
-* Use regex to filter PDF text before generating the flashcards
 * Easy to use with the JFlashcard player
 
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your `.env` file:
+
 `OPENAI_API_KEY` = API KEY used for the script to generate the card
 
 
 
 ## Usage/Examples
 
-```javascript
+```bash
 python3 main.py --file sample.pdf --lang en
 ```
 

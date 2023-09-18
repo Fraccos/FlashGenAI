@@ -6,11 +6,14 @@ import json
 import argparse
 import re
 
-def main(lang="En"):
-    load_dotenv()
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+bufferPath = "./buffers/"
 
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-    bufferPath = "./buffers/"
+
+def main(file,lang="en"):
+    runFile(file, lang)
+    print("\n\n*** All the files has been completed ***")
 
 
 def filterUselessText(text):
@@ -44,7 +47,7 @@ def saveOutputToBuffer(output, page):
 
 
 def isPageBuffered(page):
-    return os.path.isfile(getBufferPagePath(page));
+    return os.path.isfile(getBufferPagePath(page))
 
 def isOutJSONExist(inputFilename):
     return os.path.isfile(getJSONPath(inputFilename))
@@ -52,8 +55,8 @@ def isOutJSONExist(inputFilename):
 def getJSONPath(inputFilename):
     return "./out/" + re.sub(r"\.pdf$", ".json", inputFilename) 
 
-def genFlashCardPrompt(text):
-    res = 'In base al contesto, mi puoi generare delle flashcard,in Inglese, come array di oggetti JSON dove ogni flashcard è un oggetto che rispetta queste proprietà: { "question":"", "answer": ""}, la risposta deve essere un codice JSON valido senza commenti, a partire dal seguente testo:  '
+def genFlashCardPrompt(text, lang):
+    res = 'In base al contesto, mi puoi generare delle flashcard,in lingua '+ lang +', come array di oggetti JSON dove ogni flashcard è un oggetto che rispetta queste proprietà: { "question":"", "answer": ""}, la risposta deve essere un codice JSON valido senza commenti, a partire dal seguente testo:  '
     res += text
     return res
 
@@ -93,9 +96,9 @@ def JSONfromBuffers(filename, buffersSize, startIndex):
          os.remove(getBufferPagePath(pageIndex))    
 
 
-def runFile(filename): 
+def runFile(filename, lang): 
     if not os.path.isfile(filename):
-        print("\Error: File ", filename, " doesn't exist, check if the name is typed correctly" )
+        print("\nError: File '" + filename +"' doesn't exist, check if the name is typed correctly" )
         return False
     if isOutJSONExist(filename):
         return True
@@ -128,8 +131,12 @@ def runFile(filename):
     JSONfromBuffers(filename, len(doc), 2)
     doc.close()
     print("\n\n*** COMPLETED ***")
-print("\n\n*** All the files has been completed ***")
 
 if __name__ == "__main__":
-  args = argparse.parse_args()
-  main(args.verbose)
+    parser = argparse.ArgumentParser(
+                    prog='FlashGenAI',
+                    description='Generate Flashcard from PDF Text using OpenAI API')
+    parser.add_argument('-f','--file', help="The PDF file that will be used as input", required=True)
+    parser.add_argument('-l','--lang', help="The destination language of the Flashcards", default="italian")
+    args = parser.parse_args()
+    main(args.file, args.lang)
