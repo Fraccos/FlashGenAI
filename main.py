@@ -3,12 +3,14 @@ import openai
 import os
 from dotenv import load_dotenv
 import json
+import argparse
 import re
 
-load_dotenv()
+def main(lang="En"):
+    load_dotenv()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-bufferPath = "./buffers/"
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    bufferPath = "./buffers/"
 
 
 def filterUselessText(text):
@@ -128,3 +130,6 @@ def runFile(filename):
     print("\n\n*** COMPLETED ***")
 print("\n\n*** All the files has been completed ***")
 
+if __name__ == "__main__":
+  args = argparse.parse_args()
+  main(args.verbose)
